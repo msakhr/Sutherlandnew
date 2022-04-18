@@ -13,14 +13,14 @@
                                 <tree editable="bottom">
                                     <field name="name"/>
                                     <field name="code" readonly="1"/>
-                                    <field name="value" readonly="1" sum="allowance"/>
+                                    <field name="value" sum="allowance"/>
                                 </tree>
                             </field>
                             <field name="deduction_ids">
                                 <tree editable="bottom">
                                     <field name="name"/>
                                     <field name="code" readonly="1"/>
-                                    <field name="value" readonly="1" sum="deductions"/>
+                                    <field name="value" sum="deductions"/>
                                 </tree>
                             </field>
                         </group>
