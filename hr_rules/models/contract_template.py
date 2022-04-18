@@ -10,8 +10,8 @@ class ContractTemplate(models.Model):
 	_description = "HR Contract Template"
 	
 	name = fields.Char(string='Template Name')
-	allowance_ids = fields.One2many('allowance.hr', 'contract_template', string='Allowances')
-	deduction_ids = fields.One2many('deduction.hr', 'contract_template', string='Deductions')
+	allowance_ids = fields.One2many('allowance.hr.lines', 'contract_template', string='Allowances')
+	deduction_ids = fields.One2many('deduction.hr.lines', 'contract_template', string='Deductions')
 
 
 class AllowanceHr(models.Model):
@@ -22,8 +22,7 @@ class AllowanceHr(models.Model):
 	name = fields.Char(string='Allowance Type', require=True)
 	value = fields.Float(string='Value', require=True)
 	code = fields.Char("Code", require=True, copy=False)
-	contract_template = fields.Many2one('contract.template', string="Contract_template")
-	
+
 	@api.constrains('code')
 	def _unique_code(self):
 		for rec in self:
@@ -31,6 +30,17 @@ class AllowanceHr(models.Model):
 				other_ids = self.env['allowance.hr'].search([('code', '=', rec.code), ('id', '!=', rec.id)])
 				if other_ids:
 					raise Warning(_("You can't have 2 allowance with same code"))
+
+
+class AllowanceHrLines(models.Model):
+	_name = 'allowance.hr.lines'
+	_inherit = ['mail.thread', 'mail.activity.mixin']
+	_description = "HR Contract Template Allowance"
+
+	name = fields.Many2one('allowance.hr', string='Allowance Type', require=True)
+	value = fields.Float(string='Value', related="name.value")
+	code = fields.Char("Code", copy=False, related="name.code")
+	contract_template = fields.Many2one('contract.template', string="Contract_template")
 
 
 class DeductionHr(models.Model):
@@ -50,6 +60,17 @@ class DeductionHr(models.Model):
 				other_ids = self.env['allowance.hr'].search([('code', '=', rec.code), ('id', '!=', rec.id)])
 				if other_ids:
 					raise Warning(_("You can't have 2 allowance with same code"))
+
+
+class DeductionHrLines(models.Model):
+	_name = 'deduction.hr.lines'
+	_inherit = ['mail.thread', 'mail.activity.mixin']
+	_description = "HR Contract Template Deductions"
+
+	name = fields.Many2one('deduction.hr', string='Deduction Type', require=True)
+	value = fields.Float(string='Value', related="name.value")
+	code = fields.Char("Code", copy=False, related="name.code")
+	contract_template = fields.Many2one('contract.template', string="Contract_template")
 
 
 class HrContractInherit(models.Model):
