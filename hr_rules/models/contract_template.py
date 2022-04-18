@@ -9,11 +9,9 @@ class ContractTemplate(models.Model):
 	_inherit = ['mail.thread', 'mail.activity.mixin']
 	_description = "HR Contract Template"
 	
-	name = fields.Char(string='Template Name', track_visibility='onchange')
-	allowance_ids = fields.Many2many('allowance.hr', 'contract_template_allowance_rel',
-	                                 'template_id', 'allowance_id', string='Allowances', track_visibility='onchange')
-	deduction_ids = fields.Many2many('deduction.hr', 'contract_template_deduction_rel',
-	                                 'template_id', 'deduction_id', string='Deductions', track_visibility='onchange')
+	name = fields.Char(string='Template Name')
+	allowance_ids = fields.One2many('allowance.hr', 'contract_template', string='Allowances')
+	deduction_ids = fields.One2many('deduction.hr', 'contract_template', string='Deductions')
 
 
 class AllowanceHr(models.Model):
@@ -21,9 +19,10 @@ class AllowanceHr(models.Model):
 	_inherit = ['mail.thread', 'mail.activity.mixin']
 	_description = "HR Contract Template Allowance"
 	
-	name = fields.Char(string='Allowance Type', track_visibility='onchange', require=True)
-	value = fields.Float(string='Value', track_visibility='onchange', require=True)
+	name = fields.Char(string='Allowance Type', require=True)
+	value = fields.Float(string='Value', require=True)
 	code = fields.Char("Code", require=True, copy=False)
+	contract_template = fields.Many2one('contract.template', string="Contract_template")
 	
 	@api.constrains('code')
 	def _unique_code(self):
@@ -39,9 +38,10 @@ class DeductionHr(models.Model):
 	_inherit = ['mail.thread', 'mail.activity.mixin']
 	_description = "HR Contract Template Deductions"
 	
-	name = fields.Char(string='Deduction Type', track_visibility='onchange', require=True)
-	value = fields.Float(string='Value', track_visibility='onchange', require=True)
+	name = fields.Char(string='Deduction Type', require=True)
+	value = fields.Float(string='Value', require=True)
 	code = fields.Char("Code", require=True, copy=False)
+	contract_template = fields.Many2one('contract.template', string="Contract_template")
 	
 	@api.constrains('code')
 	def _unique_code(self):
