@@ -38,7 +38,7 @@ class AllowanceHrLines(models.Model):
 	_description = "HR Contract Template Allowance"
 
 	name = fields.Many2one('allowance.hr', string='Allowance Type', require=True)
-	value = fields.Float(string='Value', related="name.value")
+	value = fields.Float(string='Value')
 	code = fields.Char("Code", copy=False, related="name.code")
 	contract_template = fields.Many2one('contract.template', string="Contract_template")
 
@@ -68,7 +68,7 @@ class DeductionHrLines(models.Model):
 	_description = "HR Contract Template Deductions"
 
 	name = fields.Many2one('deduction.hr', string='Deduction Type', require=True)
-	value = fields.Float(string='Value', related="name.value")
+	value = fields.Float(string='Value')
 	code = fields.Char("Code", copy=False, related="name.code")
 	contract_template = fields.Many2one('contract.template', string="Contract_template")
 
