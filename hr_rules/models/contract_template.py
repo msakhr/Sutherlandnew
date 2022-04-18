@@ -119,7 +119,7 @@ class ContractAllowanceLine(models.Model):
 	
 	value = fields.Float(string='Value', require=True)
 	contract_id = fields.Many2one('hr.contract', "contract")
-	allowance_id = fields.Many2one('allowance.hr', string='Allowances', require=True)
+	allowance_id = fields.Many2one('allowance.hr.lines', string='Allowances', require=True)
 
 
 class ContractDeductionLine(models.Model):
@@ -129,4 +129,4 @@ class ContractDeductionLine(models.Model):
 	
 	value = fields.Float(string='Value', require=True)
 	contract_id = fields.Many2one('hr.contract', "contract")
-	deduction_id = fields.Many2one('deduction.hr', string='Deductions', require=True)
+	deduction_id = fields.Many2one('deduction.hr.lines', string='Deductions', require=True)
