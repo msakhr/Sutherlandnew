@@ -89,7 +89,7 @@
                                 <field name="deduction_ids">
                                     <tree editable="bottom">
                                         <field name="deduction_id"/>
-                                        <field name="value" readonly="1" sum="deductions"/>
+                                        <field name="value" sum="deductions"/>
                                     </tree>
                                 </field>
                             </group>
